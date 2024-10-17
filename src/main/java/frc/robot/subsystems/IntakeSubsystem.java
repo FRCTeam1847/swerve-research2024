@@ -18,17 +18,18 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void IntakeNote() {
-    m_motor.set(0.75);
-    m_motor2.set(0.75);
+    m_motor.set(0.6);
+    m_motor2.set(0.6);
   }
 
   public void PullBack() {
-    m_motor.set(-0.25);
-    m_motor2.set(-0.25);
+    m_motor.set(-0.4);
+    m_motor2.set(-0.4);
   }
 
   public void Stop() {
     m_motor.stopMotor();
+    m_motor2.stopMotor();
   }
 
   public Command StopCommand() {

@@ -52,7 +52,8 @@ public class SwerveSubsystem extends SubsystemBase {
     // In this case the gear ratio is 12.8 motor revolutions per wheel rotation.
     // The encoder resolution per motor revolution is 1 per motor revolution.
     double angleConversionFactor = SwerveMath.calculateDegreesPerSteeringRotation(12.8);
-    // Motor conversion factor is (PI * WHEEL DIAMETER IN METERS) / (GEAR RATIO * ENCODER RESOLUTION).
+    // Motor conversion factor is (PI * WHEEL DIAMETER IN METERS) / (GEAR RATIO *
+    // ENCODER RESOLUTION).
     // In this case the wheel diameter is 4 inches, which must be converted to
     // meters to get meters/second.
     // The gear ratio is 6.75 motor revolutions per wheel rotation.
@@ -179,17 +180,35 @@ public class SwerveSubsystem extends SubsystemBase {
    * @param headingY     Heading Y to calculate angle of the joystick.
    * @return Drive command.
    */
+  // public Command driveCommand(DoubleSupplier translationX, DoubleSupplier
+  // translationY, DoubleSupplier headingX,
+  // DoubleSupplier headingY) {
+  // // swerveDrive.setHeadingCorrection(true); // Normally you would want heading
+  // // correction for this kind of control.
+  // return run(() -> {
+
+  // Translation2d scaledInputs = SwerveMath.scaleTranslation(new
+  // Translation2d(translationX.getAsDouble(),
+  // translationY.getAsDouble()), 0.8);
+
+  // // Make the robot move
+  // driveFieldOriented(swerveDrive.swerveController.getTargetSpeeds(scaledInputs.getX(),
+  // scaledInputs.getY(),
+  // headingX.getAsDouble(),
+  // headingY.getAsDouble(),
+  // swerveDrive.getOdometryHeading().getRadians(),
+  // swerveDrive.getMaximumVelocity()));
+  // });
+  // }
   public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier headingX,
       DoubleSupplier headingY) {
     // swerveDrive.setHeadingCorrection(true); // Normally you would want heading
     // correction for this kind of control.
     return run(() -> {
-
-      Translation2d scaledInputs = SwerveMath.scaleTranslation(new Translation2d(translationX.getAsDouble(),
-          translationY.getAsDouble()), 0.8);
-
+      double xInput = Math.pow(translationX.getAsDouble(), 3); // Smooth controll out
+      double yInput = Math.pow(translationY.getAsDouble(), 3); // Smooth controll out
       // Make the robot move
-      driveFieldOriented(swerveDrive.swerveController.getTargetSpeeds(scaledInputs.getX(), scaledInputs.getY(),
+      driveFieldOriented(swerveDrive.swerveController.getTargetSpeeds(xInput, yInput,
           headingX.getAsDouble(),
           headingY.getAsDouble(),
           swerveDrive.getOdometryHeading().getRadians(),

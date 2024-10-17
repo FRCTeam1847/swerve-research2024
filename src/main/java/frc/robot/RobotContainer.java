@@ -57,9 +57,9 @@ public class RobotContainer {
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRightX() * 0.5);
+        () -> MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.LEFT_X_DEADBAND));
 
-    drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
+    drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
   }
 
   private void configureBindings() {
@@ -76,7 +76,6 @@ public class RobotContainer {
 
     // Bind Y button (button 4) to PullBackCommand
     driverXbox.y().whileTrue(new PullBackCommand(m_intakeSubsystem));
-
   }
 
   /**
