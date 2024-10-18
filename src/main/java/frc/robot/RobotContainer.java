@@ -76,14 +76,19 @@ public class RobotContainer {
     // Bind B button (button 2) to DropCommand
     driverXbox2.b().whileTrue(new DropCommand(m_shootingSubsystem));
 
-    // Intake Subsystem Bindings
-    // Bind X button (button 3) to IntakeCommand
-    driverXbox2.x().whileTrue(new IntakeCommand(m_intakeSubsystem));
+    // // Intake Subsystem Bindings
+    // // Bind X button (button 3) to IntakeCommand
+    // driverXbox2.x().whileTrue(new IntakeCommand(m_intakeSubsystem));
 
     // Bind Y button (button 4) to PullBackCommand
     driverXbox2.y().whileTrue(new PullBackCommand(m_intakeSubsystem));
     // driverXbox.leftBumper().whileTrue()
 
+    // Bind X button to intake then pull back when button is not pressed
+    driverXbox2.x().whileTrue(new IntakeCommand(m_intakeSubsystem))
+        .onFalse(new PullBackCommand(m_intakeSubsystem).withTimeout(0.5));
+
+    // Bind A button to run shooter then feed the note into the shooter
     driverXbox2.a().onTrue(
         new ParallelCommandGroup(
             new ShootCommand(m_shootingSubsystem).withTimeout(2), // shoot
