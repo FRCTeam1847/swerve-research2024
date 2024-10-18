@@ -41,6 +41,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverXbox = new CommandXboxController(0);
 
+  private final CommandXboxController driverXbox2 = new CommandXboxController(1);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -65,17 +66,18 @@ public class RobotContainer {
   private void configureBindings() {
     // Shooting Subsystem Bindings
     // Bind A button (button 1) to ShootCommand
-    driverXbox.a().whileTrue(new ShootCommand(m_shootingSubsystem));
+    driverXbox2.a().whileTrue(new ShootCommand(m_shootingSubsystem));
 
     // Bind B button (button 2) to DropCommand
-    driverXbox.b().whileTrue(new DropCommand(m_shootingSubsystem));
+    driverXbox2.b().whileTrue(new DropCommand(m_shootingSubsystem));
 
     // Intake Subsystem Bindings
     // Bind X button (button 3) to IntakeCommand
-    driverXbox.x().whileTrue(new IntakeCommand(m_intakeSubsystem));
+    driverXbox2.x().whileTrue(new IntakeCommand(m_intakeSubsystem));
 
     // Bind Y button (button 4) to PullBackCommand
-    driverXbox.y().whileTrue(new PullBackCommand(m_intakeSubsystem));
+    driverXbox2.y().whileTrue(new PullBackCommand(m_intakeSubsystem));
+    // driverXbox.leftBumper().whileTrue()
   }
 
   /**

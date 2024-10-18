@@ -28,8 +28,8 @@ public class ShootingSubsystem extends SubsystemBase {
   }
 
    public void PullNote() {
-    m_motor.set(-0.6);
-    m_motor2.set(-0.6);
+    m_motor.set(-0.3);
+    m_motor2.set(-0.3);
   }
 
   public void Stop() {
