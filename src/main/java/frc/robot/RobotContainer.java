@@ -16,6 +16,9 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
@@ -42,6 +45,7 @@ public class RobotContainer {
   private final CommandXboxController driverXbox = new CommandXboxController(0);
 
   private final CommandXboxController driverXbox2 = new CommandXboxController(1);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -64,9 +68,10 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
     // Shooting Subsystem Bindings
     // Bind A button (button 1) to ShootCommand
-    driverXbox2.a().whileTrue(new ShootCommand(m_shootingSubsystem));
+    // driverXbox2.a().whileTrue(new ShootCommand(m_shootingSubsystem));
 
     // Bind B button (button 2) to DropCommand
     driverXbox2.b().whileTrue(new DropCommand(m_shootingSubsystem));
@@ -78,6 +83,14 @@ public class RobotContainer {
     // Bind Y button (button 4) to PullBackCommand
     driverXbox2.y().whileTrue(new PullBackCommand(m_intakeSubsystem));
     // driverXbox.leftBumper().whileTrue()
+
+    driverXbox2.a().onTrue(
+        new ParallelCommandGroup(
+            new ShootCommand(m_shootingSubsystem).withTimeout(2), // shoot
+            new SequentialCommandGroup(
+                new WaitCommand(0.5), // Wait for 0.5 seconds
+                new IntakeCommand(m_intakeSubsystem).withTimeout(1.5) // Run intake after the delay)
+            )));
   }
 
   /**
